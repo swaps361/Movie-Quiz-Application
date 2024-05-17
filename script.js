@@ -1,5 +1,5 @@
 const API_KEY = 'a579d815';
-const API_URL = 'http://www.omdbapi.com/';
+const API_URL = 'https://www.omdbapi.com/';
 
 async function searchMovies(query) {
     try {
