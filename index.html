@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Movie Information Application</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for a movie...">
+            <button id="search-button">Search</button>
+        </div>
+        <p id="quiz-message">Explore movies and after you have completed click on the 'Attempt Quiz' button.<br>
+                             This is a first come first serve quiz. You can directly attempt the quiz also.<br>
+                             Make sure to answer all the 3 questions as only one of the questions will contain the reward. <br>
+                             You will be given only 2 minutes to explore the movies after that it will immediately redirect you
+                             to the quiz.<br>
+        </p>
+        <button id="quiz-button">Attempt Quiz</button>
+    </header>
+    <main>
+        <div class="movies-container"></div>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

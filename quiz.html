@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie Release Year Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('pic.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .quiz-container {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    .options label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .feedback, .reward {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    .reward {
+      color: green;
+    }
+
+    .reward button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .reward button:hover {
+      background-color: #d32f2f;
+    }
+
+    .next-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .next-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz-container">
+    <h1>Movie Release Year Quiz</h1>
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+    <div class="reward" id="reward"></div>
+    <button class="next-button" id="next-button" style="display:none;">Next Question</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: 'Vampire Diaries was released in the year 2009. What type is it?',
+        options: [
+          { label: 'Series', value: 'a' },
+          { label: 'Song', value: 'b' },
+          { label: 'Movie', value: 'c' },
+          { label: 'None of the above', value: 'd' }
+        ],
+        correctAnswer: 'a',
+        reward: true
+      },
+      {
+        question: 'In which year was the movie "The Dark Knight" released?',
+        options: [
+          { label: '2008', value: 'a' },
+          { label: '2009', value: 'b' },
+          { label: '2010', value: 'c' },
+          { label: '2011', value: 'd' }
+        ],
+        correctAnswer: 'a',
+        reward: false
+      },
+      {
+        question: 'In which year was the movie "Avatar" released?',
+        options: [
+          { label: '2009', value: 'a' },
+          { label: '2010', value: 'b' },
+          { label: '2011', value: 'c' },
+          { label: '2012', value: 'd' }
+        ],
+        correctAnswer: 'a',
+        reward: false
+      }
+    ];
+
+    let currentQuestionIndex = 0;
+
+    function loadQuestion(index) {
+      const questionElement = document.getElementById('question');
+      const optionsElement = document.getElementById('options');
+      const feedbackElement = document.getElementById('feedback');
+      const rewardElement = document.getElementById('reward');
+      const nextButton = document.getElementById('next-button');
+
+      const question = questions[index];
+
+      questionElement.textContent = question.question;
+      optionsElement.innerHTML = '';
+      feedbackElement.textContent = '';
+      rewardElement.textContent = '';
+      rewardElement.innerHTML = '';
+      nextButton.style.display = 'none';
+
+      question.options.forEach(option => {
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = 'answer';
+        input.value = option.value;
+
+        const label = document.createElement('label');
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option.label));
+
+        optionsElement.appendChild(label);
+      });
+
+      const correctAnswer = question.correctAnswer;
+      let firstAttempt = true;
+
+      document.querySelectorAll('input[type="radio"]').forEach((input) => {
+        input.addEventListener('change', () => {
+          const selectedAnswer = input.value;
+          if (selectedAnswer === correctAnswer && firstAttempt) {
+            feedbackElement.textContent = 'Correct!';
+            feedbackElement.style.color = 'green';
+            if (question.reward) {
+              rewardElement.innerHTML = `
+                Congratulations! You have won 3 free movie tickets. Click on the claim now button below.
+                <br>
+                <button onclick="window.location.href='https://in.bookmyshow.com/movies/'">Claim Now</button>
+                <p>Purchase the tickets using the UPI ID '8252226321@paytm' as quickly as possible since it is a first come first serve reward claim.</p>
+              `;
+            } else {
+              rewardElement.textContent = 'Sorry, there are no rewards for this question.';
+              rewardElement.style.color = 'red';
+            }
+          } else if (selectedAnswer === correctAnswer) {
+            feedbackElement.textContent = 'Correct!';
+            feedbackElement.style.color = 'green';
+          } else {
+            feedbackElement.textContent = 'Incorrect. Try again.';
+            feedbackElement.style.color = 'red';
+            firstAttempt = false;
+          }
+          nextButton.style.display = 'block';
+        });
+      });
+    }
+
+    document.getElementById('next-button').addEventListener('click', () => {
+      currentQuestionIndex = (currentQuestionIndex + 1) % questions.length;
+      loadQuestion(currentQuestionIndex);
+    });
+
+    // Load the first question when the page loads
+    window.onload = () => {
+      loadQuestion(currentQuestionIndex);
+    };
+  </script>
+</body>
+</html>
